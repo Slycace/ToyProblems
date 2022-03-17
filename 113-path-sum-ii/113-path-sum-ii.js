@@ -25,11 +25,11 @@ function pathSumRecursive(currentNode, targetSum, allPaths, currentPath) {
     
     currentPath.push(currentNode.val);
     
-    const newPath = currentPath.slice()
+
     
     if(targetSum === currentNode.val && currentNode.left === null && currentNode.right === null) {
         //console.log(allPaths,'testing all apths')
-        allPaths.push(newPath);
+        allPaths.push([...currentPath]);
     }
 
     
