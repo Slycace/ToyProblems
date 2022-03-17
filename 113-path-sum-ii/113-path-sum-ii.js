@@ -12,26 +12,31 @@
  * @return {number[][]}
  */
 var pathSum = function(root, targetSum) {
-    const paths = [];
+    const allPaths = [];
+        
+    pathSumRecursive(root, targetSum, allPaths, [])
     
-    getPaths(root, targetSum, paths, [])
+    return allPaths;
     
-    
-    return paths;
 };
 
-function getPaths(current, targetSum, paths, currentPath) {
-    if(current === null) return;
+function pathSumRecursive(currentNode, targetSum, allPaths, currentPath) {
+    if(currentNode === null) return;
     
-    currentPath.push(current.val);
+    currentPath.push(currentNode.val);
     
-    if(current.val === targetSum && current.left === null && current.right === null) {
-        paths.push([...currentPath]);
-    } else {
-        getPaths(current.left, targetSum - current.val, paths, currentPath);
-        getPaths(current.right, targetSum - current.val, paths, currentPath);
+    if(targetSum === currentNode.val && currentNode.left === null && currentNode.right === null) {
+        //console.log(allPaths,'testing all apths')
+        allPaths.push([...currentPath]);
     }
+
     
+    pathSumRecursive(currentNode.left, targetSum - currentNode.val, allPaths, currentPath);
+    pathSumRecursive(currentNode.right, targetSum - currentNode.val, allPaths, currentPath);
+ 
+
     currentPath.pop();
+    
+    
     
 }
