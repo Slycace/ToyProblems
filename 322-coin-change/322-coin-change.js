@@ -5,7 +5,7 @@
  */
 var coinChange = function(coins, amount) {
 
-    const dp = {};
+    const dp = [];
     
     const result = coinChangeRecursive(coins, amount, 0, dp);
     if(result === Infinity) {
@@ -27,11 +27,13 @@ function coinChangeRecursive(coins, amount, currentIndex, dp) {
     
     if(coins[currentIndex] <= amount) {
         const result = coinChangeRecursive(coins, amount - coins[currentIndex], currentIndex, dp);
-        if(result != Infinity) {
+                 if(result != Infinity) {
         count1 = result + 1;
         }
-    }
     
+   
+    }
+
 
     
     const count2 = coinChangeRecursive(coins, amount, currentIndex + 1, dp);
