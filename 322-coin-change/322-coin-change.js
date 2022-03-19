@@ -4,28 +4,38 @@
  * @return {number}
  */
 var coinChange = function(coins, amount) {
+
     const dp = {};
-    let count = coinChangeRecursive(amount, coins, dp) 
-    if(count === Infinity) return -1
-    return count;
+    
+    const result = coinChangeRecursive(coins, amount, 0, dp);
+    if(result === Infinity) {
+        return -1;
+    } else {
+        return result;
+    }
 };
 
-function coinChangeRecursive(amount, coins, dp) {
-    if(amount in dp) return dp[amount];
-    if(amount === 0) return 0;
-    if(amount < 0) return -1;
-    let shortestCount = Infinity;
+function coinChangeRecursive(coins, amount, currentIndex, dp) {
+    const key =  amount + ',' + currentIndex;
     
-      
-    for(coin of coins) {
-        const count = coinChangeRecursive(amount - coin, coins, dp);
-        if(count !== -1) {
-          shortestCount = Math.min(shortestCount, 1+count );
+    if(key in dp) return dp[key];
+    if(amount === 0) return 0;
+    if(currentIndex > coins.length) return Infinity;
+    
+
+    let count1 = Infinity;
+    
+    if(coins[currentIndex] <= amount) {
+        const result = coinChangeRecursive(coins, amount - coins[currentIndex], currentIndex, dp);
+        if(result != Infinity) {
+        count1 = result + 1;
         }
-        
     }
-     
-    dp[amount] = shortestCount
-    return shortestCount;
-        
+    
+
+    
+    const count2 = coinChangeRecursive(coins, amount, currentIndex + 1, dp);
+    dp[key] = Math.min(count1, count2);
+    
+    return dp[key];
 }
